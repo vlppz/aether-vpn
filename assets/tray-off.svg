@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <!-- the front arc cuts a transparent gap through everything behind it -->
+    <mask id="gap" maskUnits="userSpaceOnUse" x="-32" y="-32" width="64" height="64">
+      <rect x="-32" y="-32" width="64" height="64" fill="#fff"/>
+      <path d="M -28 0 A 28 9.5 0 0 0 28 0" fill="none" stroke="#000" stroke-width="9"/>
+    </mask>
+    <!-- the body hides the back half of the orbit -->
+    <mask id="behind" maskUnits="userSpaceOnUse" x="-32" y="-32" width="64" height="64">
+      <rect x="-32" y="-32" width="64" height="64" fill="#fff"/>
+      <circle r="14.3" fill="#000"/>
+    </mask>
+  </defs>
+  <g transform="translate(32 32) rotate(-22)">
+    <g mask="url(#gap)">
+      <ellipse rx="28" ry="9.5" fill="none" stroke="#000" stroke-width="3.6" mask="url(#behind)"/>
+      <circle r="12.5" fill="none" stroke="#000" stroke-width="3.6"/>
+    </g>
+    <path d="M -28 0 A 28 9.5 0 0 0 28 0" fill="none" stroke="#000" stroke-width="3.6"/>
+  </g>
+</svg>

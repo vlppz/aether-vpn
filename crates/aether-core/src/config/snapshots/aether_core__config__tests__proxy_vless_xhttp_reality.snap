@@ -1,0 +1,163 @@
+---
+source: crates/aether-core/src/config/tests.rs
+expression: config
+---
+{
+  "dns": {
+    "queryStrategy": "UseIPv4",
+    "servers": [
+      "https://1.1.1.1/dns-query",
+      {
+        "address": "77.88.8.8",
+        "domains": [
+          "geosite:private",
+          "geosite:category-ru"
+        ],
+        "skipFallback": true
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 11808,
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true
+      },
+      "sniffing": {
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ],
+        "enabled": true
+      },
+      "tag": "socks-in"
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 11809,
+      "protocol": "http",
+      "settings": {},
+      "sniffing": {
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ],
+        "enabled": true
+      },
+      "tag": "http-in"
+    }
+  ],
+  "log": {
+    "dnsLog": false,
+    "loglevel": "warning"
+  },
+  "metrics": {
+    "listen": "127.0.0.1:11813",
+    "tag": "metrics"
+  },
+  "outbounds": [
+    {
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "203.0.113.7",
+            "port": 443,
+            "users": [
+              {
+                "encryption": "none",
+                "id": "b831381d-6324-4d53-ad4f-8cda48b30811"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "xhttp",
+        "realitySettings": {
+          "fingerprint": "chrome",
+          "publicKey": "SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc",
+          "serverName": "a.com"
+        },
+        "security": "reality",
+        "xhttpSettings": {
+          "extra": {
+            "xPaddingBytes": "100-1000"
+          },
+          "mode": "stream-one",
+          "path": "/x"
+        }
+      },
+      "tag": "proxy"
+    },
+    {
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "UseIPv4"
+      },
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "block"
+    },
+    {
+      "protocol": "dns",
+      "tag": "dns-out"
+    }
+  ],
+  "policy": {
+    "system": {
+      "statsOutboundDownlink": true,
+      "statsOutboundUplink": true
+    }
+  },
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "ip": [
+          "77.88.8.8"
+        ],
+        "outboundTag": "direct",
+        "port": "53"
+      },
+      {
+        "domain": [
+          "geosite:category-ads-all"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "domain": [
+          "geosite:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "domain": [
+          "geosite:category-ru"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "ip": [
+          "geoip:ru"
+        ],
+        "outboundTag": "direct"
+      }
+    ]
+  },
+  "stats": {}
+}

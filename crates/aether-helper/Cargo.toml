@@ -1,0 +1,16 @@
+[package]
+name = "aether-helper"
+description = "Privileged helper that runs Xray in TUN mode for Aether"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+aether-core = { workspace = true, features = ["ipc"] }
+serde_json.workspace = true
+tokio = { workspace = true, features = ["rt", "macros", "process", "io-util", "time", "sync", "net"] }
+interprocess.workspace = true
+anyhow.workspace = true
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"

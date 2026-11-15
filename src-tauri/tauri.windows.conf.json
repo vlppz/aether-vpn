@@ -1,0 +1,9 @@
+{
+  "bundle": {
+    "resources": {
+      "resources/geoip.dat": "geoip.dat",
+      "resources/geosite.dat": "geosite.dat",
+      "resources/wintun.dll": "wintun.dll"
+    }
+  }
+}

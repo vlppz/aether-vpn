@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/aether.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Aether</title>
+    <style>
+      html { background: #f3f2ee; }
+      html[data-theme="dark"] { background: #0b0c0f; }
+    </style>
+    <script>
+      // Resolve the theme before first paint (no flash); React reconciles it with settings later.
+      (function () {
+        var root = document.documentElement;
+        try {
+          var pref = localStorage.getItem("aether.theme");
+          var dark = pref === "dark" || ((!pref || pref === "system") && matchMedia("(prefers-color-scheme: dark)").matches);
+          root.setAttribute("data-theme", dark ? "dark" : "light");
+          var vars = JSON.parse(localStorage.getItem("aether.vars." + (dark ? "dark" : "light")) || "null");
+          if (vars) for (var k in vars) root.style.setProperty(k, vars[k]);
+        } catch (e) {
+          root.setAttribute("data-theme", matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

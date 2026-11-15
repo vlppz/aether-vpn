@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A1B20"/>
+      <stop offset="1" stop-color="#0B0C0F"/>
+    </linearGradient>
+    <radialGradient id="body" cx="0.38" cy="0.32" r="0.8">
+      <stop offset="0" stop-color="#F6F4EE"/>
+      <stop offset="1" stop-color="#C9C6BD"/>
+    </radialGradient>
+  </defs>
+  <rect x="64" y="64" width="896" height="896" rx="200" fill="url(#tile)"/>
+  <rect x="64.5" y="64.5" width="895" height="895" rx="199.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.07"/>
+  <g transform="translate(512 512) rotate(-22)">
+    <!-- back half of the orbit -->
+    <ellipse rx="318" ry="104" fill="none" stroke="#ECEAE4" stroke-opacity="0.55" stroke-width="14"/>
+    <!-- the body -->
+    <circle r="150" fill="url(#body)"/>
+    <!-- front half of the orbit, separated from the body by a gap -->
+    <path d="M -318 0 A 318 104 0 0 0 318 0" fill="none" stroke="#121317" stroke-width="40"/>
+    <path d="M -318 0 A 318 104 0 0 0 318 0" fill="none" stroke="#ECEAE4" stroke-width="14"/>
+    <!-- satellite -->
+    <circle cx="275" cy="52" r="24" fill="#8DB1FF"/>
+  </g>
+</svg>

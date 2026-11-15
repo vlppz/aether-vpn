@@ -1,0 +1,10 @@
+/target
+node_modules
+/ui/dist
+/src-tauri/binaries/*
+!/src-tauri/binaries/.gitkeep
+/src-tauri/resources/*.dat
+/src-tauri/resources/*.dll
+/src-tauri/gen
+.DS_Store
+*.snap.new

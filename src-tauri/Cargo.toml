@@ -1,0 +1,41 @@
+[package]
+name = "aether"
+description = "Aether — a fast Xray-core VPN client"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+default-run = "aether"
+
+[lib]
+name = "aether_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.7", features = [] }
+
+[dependencies]
+aether-core = { workspace = true, features = ["fetch", "ipc"] }
+tauri = { version = "2.12", features = ["tray-icon", "image-png"] }
+tauri-plugin-single-instance = { version = "2.5", features = ["deep-link"] }
+tauri-plugin-autostart = "2.7"
+tauri-plugin-deep-link = "2.6"
+tauri-plugin-clipboard-manager = "2.5"
+tauri-plugin-opener = "2.7"
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+reqwest.workspace = true
+uuid.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+interprocess.workspace = true
+url.workspace = true
+qrcode = { version = "0.14", default-features = false, features = ["svg"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[target.'cfg(any(windows, target_os = "linux"))'.dependencies]
+sysproxy = "0.3"

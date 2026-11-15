@@ -1,0 +1,123 @@
+name: Release
+
+# Push a `v*` tag to build macOS + Windows and publish a GitHub release.
+# Running it manually (Actions → Release → Run workflow) only builds and
+# uploads the installers as workflow artifacts.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build (${{ matrix.target }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            target: aarch64-apple-darwin
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: ui/pnpm-lock.yaml
+
+      - name: Install UI dependencies
+        run: pnpm --dir ui install --frozen-lockfile
+
+      - name: Fetch Xray core (macOS)
+        if: runner.os == 'macOS'
+        run: scripts/fetch-core.sh ${{ matrix.target }}
+
+      - name: Fetch Xray core (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/fetch-core.ps1 -Target ${{ matrix.target }}
+
+      # No Developer ID yet: ad-hoc sign so Apple Silicon accepts the bundle
+      # (users still need "Open Anyway" / `xattr -cr` on first launch).
+      - name: Ad-hoc signing identity (macOS)
+        if: runner.os == 'macOS'
+        run: echo "APPLE_SIGNING_IDENTITY=-" >> "$GITHUB_ENV"
+
+      - name: Build
+        run: pnpm --dir ui tauri build --target ${{ matrix.target }}
+
+      - name: Collect installers
+        shell: bash
+        run: |
+          mkdir -p out
+          bundle="target/${{ matrix.target }}/release/bundle"
+          shopt -s nullglob
+          for f in "$bundle"/dmg/*.dmg "$bundle"/nsis/*.exe "$bundle"/msi/*.msi; do
+            cp "$f" out/
+          done
+          ls -la out
+          [ -n "$(ls -A out)" ] || { echo "no installers produced" >&2; exit 1; }
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: aether-${{ matrix.target }}
+          path: out/*
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Checksums
+        run: cd dist && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: Aether ${{ github.ref_name }}
+          files: dist/*
+          generate_release_notes: true
+          body: |
+            ## Download
+
+            | Platform | File |
+            |---|---|
+            | macOS · Apple Silicon | `Aether_*_aarch64.dmg` |
+            | macOS · Intel | `Aether_*_x64.dmg` |
+            | Windows · x64 | `Aether_*_x64-setup.exe` (or the `.msi`) |
+
+            Xray-core and the geo databases are bundled.
+
+            > **Not notarized / code-signed yet.**
+            > **macOS:** if it says the app can't be opened or is damaged, run `xattr -cr /Applications/Aether.app`, or allow it in System Settings → Privacy & Security → *Open Anyway*.
+            > **Windows:** in the SmartScreen prompt, click *More info* → *Run anyway*.

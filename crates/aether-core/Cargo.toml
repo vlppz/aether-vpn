@@ -1,0 +1,26 @@
+[package]
+name = "aether-core"
+description = "Share-link parsing, subscriptions and Xray config generation for Aether"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+default = ["fetch"]
+fetch = ["dep:reqwest"]
+ipc = ["dep:interprocess"]
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+base64.workspace = true
+url.workspace = true
+percent-encoding.workspace = true
+reqwest = { workspace = true, optional = true }
+interprocess = { workspace = true, optional = true }
+
+[dev-dependencies]
+insta = { version = "1", features = ["json"] }
+tokio.workspace = true
