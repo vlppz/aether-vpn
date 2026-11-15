@@ -14,7 +14,7 @@
 ![Platforms](https://img.shields.io/badge/macOS%20%C2%B7%20Windows-1a1b20?style=flat-square&logo=tauri&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-555?style=flat-square)
 
-[English](README.md) · **Русский**
+🇺🇸 [English](README.md) · 🇷🇺 **Русский**
 
 [**Скачать**](#скачать) · [Возможности](#возможности) · [Скриншоты](#скриншоты) · [Сборка](#сборка) · [Как это работает](#как-устроено-подключение)
 
