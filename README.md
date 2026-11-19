@@ -14,7 +14,7 @@ Rust ([Tauri 2](https://tauri.app)) does all the work; the UI is React + TypeScr
 ![Platforms](https://img.shields.io/badge/macOS%20%C2%B7%20Windows-1a1b20?style=flat-square&logo=tauri&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-555?style=flat-square)
 
-<img src="https://flagcdn.com/20x15/us.png" width="20" alt=""> **English** · <img src="https://flagcdn.com/20x15/ru.png" width="20" alt=""> [Русский](README.ru.md)
+<img src="https://flagcdn.com/us.svg" width="20" alt=""> **English** · <img src="https://flagcdn.com/ru.svg" width="20" alt=""> [Русский](README.ru.md)
 
 [**Download**](#download) · [Features](#features) · [Screenshots](#screenshots) · [Build from source](#building) · [How it works](#how-a-connection-works)
 

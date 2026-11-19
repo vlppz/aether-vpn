@@ -14,7 +14,7 @@
 ![Platforms](https://img.shields.io/badge/macOS%20%C2%B7%20Windows-1a1b20?style=flat-square&logo=tauri&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-555?style=flat-square)
 
-<img src="https://flagcdn.com/20x15/us.png" width="20" alt=""> [English](README.md) · <img src="https://flagcdn.com/20x15/ru.png" width="20" alt=""> **Русский**
+<img src="https://flagcdn.com/us.svg" width="20" alt=""> [English](README.md) · <img src="https://flagcdn.com/ru.svg" width="20" alt=""> **Русский**
 
 [**Скачать**](#скачать) · [Возможности](#возможности) · [Скриншоты](#скриншоты) · [Сборка](#сборка) · [Как это работает](#как-устроено-подключение)
 
