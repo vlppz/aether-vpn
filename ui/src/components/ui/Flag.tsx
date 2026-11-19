@@ -1,6 +1,7 @@
+import "flag-icons/css/flag-icons.min.css";
 import { Globe } from "lucide-react";
 import { cn } from "../../lib/cn";
-import { countryName, flagEmoji } from "../../lib/flags";
+import { countryName, flagEmoji, hasFlag } from "../../lib/flags";
 import { useApp } from "../../store";
 import { useLang } from "../../i18n";
 
@@ -10,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-/** Country flag. Windows can't render flag emoji, so it shows the ISO code there. */
+/** Country flag. Uses emoji where supported; Windows can't render flag emoji, so it shows a bundled SVG flag there. */
 export function Flag({ code, size = 18, className }: Props) {
   const platform = useApp((s) => s.platform);
   const lang = useLang();
@@ -25,6 +26,19 @@ export function Flag({ code, size = 18, className }: Props) {
     );
   }
   if (platform === "windows") {
+    // Windows can't render flag emoji, so draw the bundled SVG flag instead.
+    if (hasFlag(code)) {
+      return (
+        <span
+          className={cn(`fi fi-${code!.toLowerCase()} shrink-0 rounded-[2px]`, className)}
+          style={{ fontSize: size }}
+          title={name}
+          role="img"
+          aria-label={name}
+        />
+      );
+    }
+    // Pseudo-codes with no real flag (e.g. "FL") fall back to the ISO code.
     return (
       <span
         className={cn("inline-grid shrink-0 place-items-center rounded-[3px] border border-line-strong font-mono text-ink-2", className)}

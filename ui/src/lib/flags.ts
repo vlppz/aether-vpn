@@ -9,6 +9,27 @@ export function flagEmoji(code: string | null | undefined): string | null {
   return String.fromCodePoint(A + up.charCodeAt(0) - 65, A + up.charCodeAt(1) - 65);
 }
 
+let regionNames: Intl.DisplayNames | null | undefined;
+
+/** True when `code` is a real ISO 3166-1 alpha-2 country with a flag (e.g. "DE"), not a pseudo-code like "FL". */
+export function hasFlag(code: string | null | undefined): boolean {
+  if (!code || !/^[a-z]{2}$/i.test(code)) return false;
+  if (regionNames === undefined) {
+    try {
+      regionNames = new Intl.DisplayNames(["en"], { type: "region", fallback: "none" });
+    } catch {
+      regionNames = null;
+    }
+  }
+  // No Intl support: assume any well-formed pair is a flag.
+  if (!regionNames) return true;
+  try {
+    return regionNames.of(code.toUpperCase()) !== undefined;
+  } catch {
+    return false;
+  }
+}
+
 const nameCache = new Map<Language, Intl.DisplayNames | null>();
 
 /** Localised country name; falls back to the upper-cased code. */
