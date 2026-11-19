@@ -49,10 +49,8 @@ export const ru: Dict = {
   "home.change": "Сменить сервер",
   "home.realDelay": "Реальная задержка",
   "home.testDelay": "Тест",
-  "home.tunHint": "TUN перехватывает весь трафик системы — потребуется пароль администратора.",
   "home.modeLabel": "Режим",
   "home.presetLabel": "Маршруты",
-  "home.proxyHint": "Через Aether идут приложения, использующие системный прокси.",
   "home.legendUp": "Отдача",
   "home.legendDown": "Приём",
 

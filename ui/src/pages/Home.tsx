@@ -156,7 +156,6 @@ function Controls() {
             { value: "tun", label: t("mode.tun") },
           ]}
         />
-        <p className="mt-2 min-h-[2lh] text-[12px] leading-snug text-ink-3 [@media(max-height:740px)]:hidden">{mode === "tun" ? t("home.tunHint") : t("home.proxyHint")}</p>
       </div>
 
       <div className="border-t border-line px-5 py-4">
@@ -172,7 +171,6 @@ function Controls() {
             { value: "direct", label: t("preset.direct") },
           ]}
         />
-        <p className="mt-2 min-h-[2lh] text-[12px] leading-snug text-ink-3 [@media(max-height:740px)]:hidden">{t(`preset.${preset}Desc`)}</p>
       </div>
 
       <div className="flex items-center gap-3 border-t border-line px-5 py-3">

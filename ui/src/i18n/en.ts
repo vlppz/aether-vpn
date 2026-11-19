@@ -61,10 +61,8 @@ export const en = {
   "home.change": "Change server",
   "home.realDelay": "Real delay",
   "home.testDelay": "Test",
-  "home.tunHint": "TUN captures all system traffic — you'll be asked for an administrator password.",
   "home.modeLabel": "Mode",
   "home.presetLabel": "Routing",
-  "home.proxyHint": "Apps that honour the system proxy are routed through Aether.",
   "home.legendUp": "Upload",
   "home.legendDown": "Download",
 
